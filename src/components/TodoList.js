@@ -7,7 +7,7 @@ const TodoList = () => {
 
     useEffect(() => {
         let arr = localStorage.getItem("taskList")
-        let obj = JSON.parse(arr)
+        
         if(arr)
         {
             let obj = JSON.parse(arr)
@@ -42,11 +42,13 @@ const TodoList = () => {
         <>
         <div className = 'header text-center'>
             <h3>ToDo List</h3>
-            <button className='btn btn-primary mt-2' onClick = {() => setModal(true)}> Create Task</button>
+            <button color = "#fc0330" className='btn btn-primary mt-2' 
+            onClick = {() => setModal(true)}> Create Task</button>
         </div>
 
         <div className = 'task-container'>
-        {taskList && taskList.map((obj, index) => <Card taskObj = {obj} index = {index} deleteTask = {deleteTask} updateListArray = {updateListArray}/>)}
+        {taskList && taskList.map((obj, index) => <Card taskObj = {obj} 
+        index = {index} deleteTask = {deleteTask} updateListArray = {updateListArray} />)}
         </div>
         <CreateTask toggle = {toggle} modal = {modal} save = {saveTask}/>
         </>
