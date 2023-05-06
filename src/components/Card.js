@@ -41,9 +41,23 @@ const Card = ({taskObj, index, deleteTask, updateListArray}) => {
         <div class = "card-wrapper mr-5">
         <div class = "card-top" style={{"background-color": colors[index%5].primaryColor}}></div>
         <div class = "task-holder">
+            <label>
+               Task
+            </label>
             <span class = "card-header" style={{"background-color": colors[index%5].secondaryColor, "border-radius": "10px"}}>
                 {taskObj.Name}</span>
+                <label>
+               Creator
+            </label>
+            <span class = "card-header" style={{"background-color": colors[index%5].secondaryColor, "border-radius": "10px"}}>
+                {taskObj.Creator}</span>
+                <label>
+               Executor
+            </label>
+            <span class = "card-header" style={{"background-color": colors[index%5].secondaryColor, "border-radius": "10px"}}>
+                {taskObj.Executor}</span>
             <p className = "mt-5">{taskObj.Description}</p>
+
 
             <div style={{"position": "absolute", "right" : "20px", "bottom" : "20px"}}>
                 <i class="far fa-edit mr-3"  style={{"color" : colors[index%5].primaryColor, "cursor" : "pointer"}} 

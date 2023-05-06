@@ -47,7 +47,7 @@
   width: auto;
   padding: 1px 1px !important;
   text-align: center;
-
+ 
 }
 
 .task-container{
@@ -57,5 +57,5 @@
   flex-wrap: wrap;
   background-color: #cff3d5;
   padding : 40px 100px;
-  justify-content: space-between;
+  justify-content: space-around;
 }

@@ -4,11 +4,18 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 const CreateTask = ({modal, toggle, save}) => {
     const [taskName, setTaskName] = useState('');
     const [description, setDescription] = useState('')
-
+    const [creatorName, setCreatorName] = useState('')
+    const [executorName, setExecutorName] = useState('')
     const handleChange = (e) => {
         const {name, value} = e.target
         if (name ==="taskName"){
             setTaskName(value)
+        }
+        else if(name === "creatorName"){
+            setCreatorName(value)
+        }
+        else if(name === "executorName"){
+            setExecutorName(value)
         }
         else {
             setDescription(value)
@@ -19,6 +26,8 @@ const CreateTask = ({modal, toggle, save}) => {
         let taskObj = {}
         taskObj["Name"]=taskName
         taskObj["Description"] = description
+        taskObj["Creator"] = creatorName
+        taskObj["Executor"] = executorName
         save(taskObj)
     }
     return (
@@ -32,6 +41,20 @@ const CreateTask = ({modal, toggle, save}) => {
                 </label>
                 <input type = 'text' className = 'form-control' value = {taskName}
                 onChange= {handleChange} name = 'taskName'/>
+            </div>
+            <div>
+                <label>
+                    Creator Name 
+                </label>
+                <input type = 'text' className = 'form-control'  value = {creatorName}
+                onChange={handleChange} name = 'creatorName'/>
+            </div>
+            <div>
+                <label>
+                Executor Name
+                </label>
+                <input type = 'text' className = 'form-control'  value = {executorName}
+                onChange={handleChange} name = 'executorName'/>
             </div>
             <div className = 'form-group'>
                 <label>Task Description</label>
