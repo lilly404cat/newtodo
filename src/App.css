@@ -16,6 +16,50 @@
   height: 100%;
 }
 
+.right-box {
+  position: absolute;
+  padding: 25px;
+  width: 275px;
+  left: 1135px;
+  top:75px;
+
+  background-color: #219653; /* red background for demo purposes */
+  border-radius: 5px;
+}
+
+.right-box::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  margin-top: -5px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 10px solid #219653; /* same color as the background */
+}
+
+.right-box-third {
+  position: absolute;
+  padding: 25px;
+  width: 275px;
+  left: 165px;
+  top:5px;
+
+  background-color: #219653; /* red background for demo purposes */
+  border-radius: 5px;
+}
+
+.right-box-third::before {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: -10px;
+  margin-top: -5px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 10px solid #219653; /* same color as the background */
+}
+
 .dark-theme{ 
   --primary-color: black;
   --secondary-color: white;
@@ -89,6 +133,49 @@
   padding: 1px 1px !important;
   text-align: center;
  
+}
+
+.close-tutorial {
+  padding: 5px 10px;
+  border: 2px solid #fff;
+  background-color: #333;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.close-tutorial:hover {
+  background-color: #fff;
+  color: #333;
+}
+
+.top-box {
+  position: absolute;
+  padding: 25px;
+  width: 375px;
+  z-index: 9999;
+  /* left: 435px;
+  top:-35px; */
+  top: 70px;
+  left: 500px;
+
+  background-color: #219653; /* red background for demo purposes */
+  border-radius: 5px;
+}
+.top-box::before {
+  content: "";
+  z-index: 9999;
+  position: absolute;
+  bottom: -10px; /* align with the bottom of the box */
+  left: 10px; /* adjust the distance from the button */
+  border-top: 10px solid #219653; /* same color as the background */
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
 }
 
 .task-container{
