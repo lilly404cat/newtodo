@@ -5,6 +5,27 @@ import Card from "./Card";
 const TodoList = ({ onToggleDarkMode, isDarkModeEnabled }) => {
   const [modal, setModal] = useState(false);
   const [taskList, setTaskList] = useState([]);
+  const [showFirstDiv, setShowFirstDiv] = useState(false);
+  const [showSecondDiv, setShowSecondDiv] = useState(false);
+  const [showThirdDiv, setShowThirdDiv] = useState(false);
+
+  const handleTutorialButtonClick = () => {
+    setShowFirstDiv(true);
+  };
+
+  const handleFirstDivButtonClick = () => {
+    setShowFirstDiv(false);
+    setShowSecondDiv(true);
+  };
+
+  const handleSecondDivButtonClick = () => {
+    setShowSecondDiv(false);
+    setShowThirdDiv(true);
+  };
+
+  const handleThirdDivButtonClick = () => {
+    setShowThirdDiv(false);
+  };
 
   useEffect(() => {
     let arr = localStorage.getItem("taskList");
@@ -42,19 +63,89 @@ const TodoList = ({ onToggleDarkMode, isDarkModeEnabled }) => {
     <div className="main-div">
       <div className="header text-center">
         {isDarkModeEnabled ? (
-          <img
-            onClick={onToggleDarkMode}
-            className="darkmodeButton"
-            src="sun.png"
-            alt="Sun"
-          ></img>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <img
+              onClick={handleTutorialButtonClick}
+              className="darkmodeButton"
+              src="tutorial-white.png"
+              alt="Sun"
+            ></img>
+            <img
+              onClick={onToggleDarkMode}
+              className="darkmodeButton"
+              src="sun.png"
+              alt="Sun"
+            ></img>
+            {showThirdDiv && (
+              <div
+                class="right-box-third"
+                id="thirdTutorial"
+                style={{ display: "block" }}
+              >
+                <p
+                  style={{
+                    color: "white",
+                    "font-size": "18px",
+                    "line-height": "1.5",
+                    "font-weight": "400",
+                  }}
+                >
+                  Use this button to toggle darkmode
+                </p>
+                <div class="align-left">
+                  <button
+                    class="close-tutorial"
+                    id="gotThird"
+                    onClick={handleThirdDivButtonClick}
+                  >
+                    Got it!
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         ) : (
-          <img
-            onClick={onToggleDarkMode}
-            className="darkmodeButton"
-            src="moon.png"
-            alt="Sun"
-          ></img>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <img
+              onClick={handleTutorialButtonClick}
+              className="darkmodeButton"
+              src="tutorial.png"
+              alt="Sun"
+            ></img>
+            <img
+              onClick={onToggleDarkMode}
+              className="darkmodeButton"
+              src="moon.png"
+              alt="Sun"
+            ></img>
+            {showThirdDiv && (
+              <div
+                class="right-box-third"
+                id="thirdTutorial"
+                style={{ display: "block" }}
+              >
+                <p
+                  style={{
+                    color: "white",
+                    "font-size": "18px",
+                    "line-height": "1.5",
+                    "font-weight": "400",
+                  }}
+                >
+                  Use this button to toggle darkmode
+                </p>
+                <div class="align-left">
+                  <button
+                    class="close-tutorial"
+                    id="gotThird"
+                    onClick={handleThirdDivButtonClick}
+                  >
+                    Got it!
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         )}
 
         <h3>ToDo List</h3>
@@ -66,9 +157,60 @@ const TodoList = ({ onToggleDarkMode, isDarkModeEnabled }) => {
           {" "}
           Create Task
         </button>
+        {showFirstDiv && (
+          <div
+            class="right-box"
+            id="firstTutorial"
+            style={{ display: "block" }}
+          >
+            <p
+              style={{
+                color: "white",
+                "font-size": "18px",
+                "line-height": "1.5",
+                "font-weight": "400",
+              }}
+            >
+              Use this button to add a new ToDo
+            </p>
+            <div class="align-left">
+              <button
+                class="close-tutorial"
+                id="gotFirst"
+                onClick={handleFirstDivButtonClick}
+              >
+                Got it!
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="task-container">
+        {showSecondDiv && (
+          <div class="top-box" id="firstTutorial" style={{ display: "block" }}>
+            <p
+              style={{
+                color: "white",
+                "font-size": "18px",
+                "line-height": "1.5",
+                "font-weight": "400",
+              }}
+            >
+              Here you can see all the ToDos. You can edit or delete them.
+            </p>
+            <div class="align-left">
+              <button
+                class="close-tutorial"
+                id="gotFirst"
+                onClick={handleSecondDivButtonClick}
+              >
+                Got it!
+              </button>
+            </div>
+          </div>
+        )}
+
         {taskList &&
           taskList.map((obj, index) => (
             <Card
