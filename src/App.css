@@ -1,14 +1,55 @@
 .App {
   text-align: center;
+  height: 100%;
+}
+#root {
+  height: 100%;
+}
+:root {
+  --primary-color: #E9EEF7;
+  --secondary-color: black;
+  --third-color: #F8F6FA;
+  --forth-color: #d0d0d0;
+}
+
+.main-div {
+  height: 100%;
+}
+
+.dark-theme{ 
+  --primary-color: black;
+  --secondary-color: white;
+  --third-color: #151515;
+  --forth-color: #4a4a4a;
+}
+
+.darkmodeButton {
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+  margin-left: 30px;
+}
+
+.text {
+  color:var(--secondary-color);
 }
 
 .header{
   height: 200px;
   width: 100%;
-  background-color : #c6f2ff;
+  background-color : var(--primary-color);
   padding-top: 50px;
+  color: var(--secondary-color);
 }
 
+.darkmodeButton {
+  display: flex;
+  justify-self: flex-start;
+}
+
+.footer {
+  background-color: #CFF3D5;
+}
 .card-container{
   height: 300px;
   width: 300px;
@@ -19,7 +60,7 @@
   width: 270px; 
   min-height: 250px;
   height: 300px; 
-  box-shadow: 0px 3px 50px #9bf8d9;
+  box-shadow: 0px 3px 50px var(--forth-color);
   display: flex;
   flex-direction: column;
 }
@@ -51,11 +92,11 @@
 }
 
 .task-container{
-  height: 800px;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  background-color: #cff3d5;
+  background-color: var(--third-color);
   padding : 40px 100px;
   justify-content: space-around;
 }
