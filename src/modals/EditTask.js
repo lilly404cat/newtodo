@@ -1,11 +1,15 @@
 import React, { useState , useEffect} from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+const API_URL = 'http://localhost:5000/api/tasks';
+
 
 const EditTaskPopup = ({modal, toggle, updateTask, taskObj}) => {
     const [taskName, setTaskName] = useState('');
     const [description, setDescription] = useState('');
-    const [creatorName, setCreatorName] = useState('')
-    const [executorName, setExecutorName] = useState('')
+    const [creatorName, setCreatorName] = useState('');
+    const [executorName, setExecutorName] = useState('');
+
+
     const handleChange = (e) => {
         const {name, value} = e.target
         if (name ==="taskName"){
@@ -27,17 +31,32 @@ const EditTaskPopup = ({modal, toggle, updateTask, taskObj}) => {
         setDescription(taskObj.Description)
         setCreatorName(taskObj.Creator)
         setExecutorName(taskObj.Executor)
-    },[])
+    },[taskObj])
 
-    const handleUpdate = (e) => {
+    
+
+    const handleUpdate = async (e) => {
         e.preventDefault();
-        let tempObj = {}
-        tempObj['Name'] = taskName
-        tempObj['Description'] = description
-        taskObj["Creator"] = creatorName
-        taskObj["Executor"] = executorName
-        updateTask(tempObj)
-    }
+        try {
+          const res = await fetch(`${API_URL}/${taskObj._id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              taskName: taskName,
+              description: description,
+              creatorName: creatorName,
+              executorName: executorName,
+            }),
+          });
+          const data = await res.json();
+          updateTask(data);
+          toggle();
+        } catch (error) {
+          console.log(error);
+        }
+    };
 
     return (
         <Modal isOpen={modal} toggle={toggle}>
@@ -50,19 +69,15 @@ const EditTaskPopup = ({modal, toggle, updateTask, taskObj}) => {
                         onChange = {handleChange} name = "taskName"/>
                     </div>
                     <div>
-                <label>
-                    Creator Name 
-                </label>
-                <input type = 'text' className = 'form-control'  value = {creatorName}
-                onChange={handleChange} name = 'creatorName'/>
-            </div>
-            <div>
-                <label>
-                Executor Name
-                </label>
-                <input type = 'text' className = 'form-control'  value = {executorName}
-                onChange={handleChange} name = 'executorName'/>
-            </div>
+                        <label>Creator Name</label>
+                        <input type = 'text' className = 'form-control'  value = {creatorName}
+                        onChange={handleChange} name = 'creatorName'/>
+                    </div>
+                    <div>
+                        <label>Executor Name</label>
+                        <input type = 'text' className = 'form-control'  value = {executorName}
+                        onChange={handleChange} name = 'executorName'/>
+                    </div>
                     <div className = "form-group">
                         <label>Description</label>
                         <textarea rows = "5" className = "form-control" value = {description} 
