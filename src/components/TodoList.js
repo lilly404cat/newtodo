@@ -1,67 +1,92 @@
-import React, { useEffect, useState } from "react";
-import CreateTask from "../modals/CreateTask";
-import Card from "./Card";
+import React, {useEffect, useState} from 'react';
+import CreateTask from '../modals/CreateTask'
+import Card from './Card'
+
+const API_URL = 'http://localhost:5000/api/tasks';
+
 
 const TodoList = ({ onToggleDarkMode, isDarkModeEnabled }) => {
-  const [modal, setModal] = useState(false);
-  const [taskList, setTaskList] = useState([]);
-  const [showFirstDiv, setShowFirstDiv] = useState(false);
-  const [showSecondDiv, setShowSecondDiv] = useState(false);
-  const [showThirdDiv, setShowThirdDiv] = useState(false);
+    const [modal, setModal] = useState(false);
+    const [taskList, setTaskList] = useState([]);
+    const [showFirstDiv, setShowFirstDiv] = useState(false);
+    const [showSecondDiv, setShowSecondDiv] = useState(false);
+    const [showThirdDiv, setShowThirdDiv] = useState(false);
 
-  const handleTutorialButtonClick = () => {
-    setShowFirstDiv(true);
-  };
+    const handleTutorialButtonClick = () => {
+      setShowFirstDiv(true);
+    };
+  
+    const handleFirstDivButtonClick = () => {
+      setShowFirstDiv(false);
+      setShowSecondDiv(true);
+    };
+  
+    const handleSecondDivButtonClick = () => {
+      setShowSecondDiv(false);
+      setShowThirdDiv(true);
+    };
+  
+    const handleThirdDivButtonClick = () => {
+      setShowThirdDiv(false);
+    };
 
-  const handleFirstDivButtonClick = () => {
-    setShowFirstDiv(false);
-    setShowSecondDiv(true);
-  };
+    useEffect(() => {
+        fetch(API_URL)
+          .then((response) => response.json())
+          .then((data) => {setTaskList(data.tasks); console.log(data);})
+          .catch((error) => console.error(error));
+      }, []);
 
-  const handleSecondDivButtonClick = () => {
-    setShowSecondDiv(false);
-    setShowThirdDiv(true);
-  };
+    const toggle = () => setModal(!modal);
 
-  const handleThirdDivButtonClick = () => {
-    setShowThirdDiv(false);
-  };
+    const deleteTask = (index, _id) => {
+        fetch(`${API_URL}/${_id}`, { method: 'DELETE' })
+          .then(() => {
+            const tempList = [...taskList];
+            tempList.splice(index, 1);
+            setTaskList(tempList);
+          })
+          .catch((error) => console.error(error));
+      };
 
-  useEffect(() => {
-    let arr = localStorage.getItem("taskList");
+      const updateListArray = (obj, index) => {
+        fetch(`${API_URL}/${obj._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(obj),
+        })
+          .then(() => {
+            const tempList = [...taskList];
+            tempList[index] = obj;
+            setTaskList(tempList);
+          })
+          .catch((error) => console.error(error));
+      };
 
-    if (arr) {
-      let obj = JSON.parse(arr);
-      setTaskList(obj);
-    }
-  }, []);
-  const toggle = () => setModal(!modal);
-  const deleteTask = (index) => {
-    let tempList = taskList;
-    tempList.splice(index, 1);
-    localStorage.setItem("taskList", JSON.stringify(tempList));
-    setTaskList(tempList);
-    window.location.reload();
-  };
+      const saveTask = (taskObj) => {
+        fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(taskObj),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const tempList = [...taskList];
+            tempList.push(data);
+            console.log(tempList);
+            setTaskList(tempList);
+            setModal(false);
+          })
+          .catch((error) => console.error(error));
+      };
 
-  const updateListArray = (obj, index) => {
-    let tempList = taskList;
-    tempList[index] = obj;
-    localStorage.setItem("taskList", JSON.stringify(tempList));
-    setTaskList(tempList);
-    window.location.reload();
-  };
-
-  const saveTask = (taskObj) => {
-    let tempList = taskList;
-    tempList.push(taskObj);
-    localStorage.setItem("taskList", JSON.stringify(tempList));
-    setTaskList(taskList);
-    setModal(false);
-  };
-  return (
-    <div className="main-div">
-      <div className="header text-center">
+    return (
+      <div className="main-div">
+        <div className = 'header text-center'>
         {isDarkModeEnabled ? (
           <div style={{ display: "flex", flexDirection: "row" }}>
             <img
@@ -147,17 +172,10 @@ const TodoList = ({ onToggleDarkMode, isDarkModeEnabled }) => {
             )}
           </div>
         )}
-
-        <h3>ToDo List</h3>
-        <button
-          color="#fc0330"
-          className="btn btn-primary mt-2"
-          onClick={() => setModal(true)}
-        >
-          {" "}
-          Create Task
-        </button>
-        {showFirstDiv && (
+            <h3>ToDo List</h3>
+            <button color = "#fc0330" className='btn btn-primary mt-2' 
+            onClick = {() => setModal(true)}> Create Task</button>
+            {showFirstDiv && (
           <div
             class="right-box"
             id="firstTutorial"
@@ -184,9 +202,9 @@ const TodoList = ({ onToggleDarkMode, isDarkModeEnabled }) => {
             </div>
           </div>
         )}
-      </div>
+        </div>
 
-      <div className="task-container">
+        <div className = 'task-container'>
         {showSecondDiv && (
           <div class="top-box" id="firstTutorial" style={{ display: "block" }}>
             <p
@@ -210,20 +228,20 @@ const TodoList = ({ onToggleDarkMode, isDarkModeEnabled }) => {
             </div>
           </div>
         )}
-
         {taskList &&
           taskList.map((obj, index) => (
             <Card
+              key={obj._id}
               taskObj={obj}
               index={index}
               deleteTask={deleteTask}
               updateListArray={updateListArray}
             />
           ))}
-      </div>
-      <CreateTask toggle={toggle} modal={modal} save={saveTask} />
-    </div>
-  );
+          </div>
+        <CreateTask toggle = {toggle} modal = {modal} save = {saveTask}/>
+        </div>
+    );
 };
 
 export default TodoList;
